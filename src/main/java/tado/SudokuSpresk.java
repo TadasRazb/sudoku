@@ -8,39 +8,61 @@ import java.nio.charset.StandardCharsets;
 
 public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
-  public Integer [][] sudoku_skaiciai;  //sukuriam du masyvus viena eilutem kita stulpeliams
+  public Integer [][] sudoku_skaiciai;  //sukuriam masyvu masyva - matrica
 
-  public ArrayList<Integer> truksta_eilutese;
+  public ArrayList<Integer>[] truksta_eilutese; //masyvas eilutese trukstamu elementu sarasu
 
-  public SudokuSpresk () {    //konstruktorius??
+  public ArrayList<Integer>[] truksta_stulpeliuose;
 
-    truksta_eilutese = new ArrayList<Integer>();
+  public ArrayList<Integer>[] truksta_kvadratuose;
+
+  public Kvadratas [] kvadratai;
+
+  public Pozicija [] zingsniai;
+
+  public SudokuSpresk () {    //konstruktorius
+
+    truksta_eilutese = new ArrayList[9]; //sukuria masyva is 9 sararsu objektu
+    truksta_stulpeliuose = new ArrayList[9];
+    truksta_kvadratuose = new ArrayList[9];
+
+    kvadratai = new Kvadratas[9];
+    kvadratai[0] = new Kvadratas( new Pozicija(0,0) ); //pozicija virsutinio kairio kampo kiekviename kvardrate
+    kvadratai[1] = new Kvadratas( new Pozicija(0,3) );
+    kvadratai[2] = new Kvadratas( new Pozicija(0,6) );
+    kvadratai[3] = new Kvadratas( new Pozicija(3,0) );
+    kvadratai[4] = new Kvadratas( new Pozicija(3,3) );
+    kvadratai[5] = new Kvadratas( new Pozicija(3,6) );
+    kvadratai[6] = new Kvadratas( new Pozicija(6,0) );
+    kvadratai[7] = new Kvadratas( new Pozicija(6,3) );
+    kvadratai[8] = new Kvadratas( new Pozicija(6,6) );
   }
 
-  public void skaityti() throws IOException {     //?????
 
-    sudoku_skaiciai = new Integer [9][9];     //duodam sudoku_skaiciai forma 9x9???
+  public void skaityti() throws IOException {     //naujas metodas klases viduj
+
+    sudoku_skaiciai = new Integer [9][9];     //duodam sudoku_skaiciai forma 9x9
 
        BufferedReader r = new BufferedReader( new InputStreamReader (System.in ) ); //skaitymas
 
        System.out.println("iveskite sudoku varianto failo varda [ Enter - sudoku_var1.csv]"); //israsas kad tinka failas su situ pavadinimu
 
-       String sudoku_var1 = r.readLine(); //perskaito faila
+       String sudoku_var1 = r.readLine(); //perskaito failo pavadinima
 
        if (sudoku_var1.length()==0) {   //jei sudoku_var1 length lygus nuliui tai imam faila is direktorijos
 
-         sudoku_var1= "/Users/tadas/Desktop/mvnhello/sudoku/src/main/java/tado/sudoku_var1.csv";
+         sudoku_var1= "/Users/tadas/Desktop/mvnhello/sudoku/src/main/java/tado/sudoku_var1.csv"; //vieta failo
        }
 
-       File sudoku_failas = new File(sudoku_var1); //duodam keiciam pavadinima is sudoku_var1 i sudoku_failas
+       File sudoku_failas = new File(sudoku_var1); //sukuriam failo tipo kintamaji
 
-       BufferedReader br = new BufferedReader( new FileReader( sudoku_failas ) ); //skaitom sudoku_faila
+       BufferedReader br = new BufferedReader( new FileReader( sudoku_failas ) ); //isskiriama atmintis failo skaitymui
 
-       String skaitom_po_viena_eilute;    //su string skaito kikviena eilute atskirai?
+       String skaitom_po_viena_eilute;    //eilute nuskaitytai eilutej saugoti
 
        int k = 0; //duodam k reiksme lygia 0
 
-       while ((skaitom_po_viena_eilute = br.readLine()) !=null) { //ciklas skaito eilutes ir negali buti lygu 0
+       while ((skaitom_po_viena_eilute = br.readLine()) !=null) { //ciklas skaito eilutes kol ju yra
 
          String[] duoti_skaiciai = skaitom_po_viena_eilute.split(","); //paima is masyvo eilutes ir atskyrimo reiksmes lygios kableliui
 
@@ -70,6 +92,8 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
       System.out.print(i+" : "); //skaito kiekviena skaiciu is eiles
 
+      truksta_eilutese [i] = new ArrayList<Integer>();
+
       for (Integer x_skaicius=1; x_skaicius<10; x_skaicius++){ //ciklas sukti naujam nezinomajam x_skaicius duota reiksme1 maziau nei 10, ++ kad ima sekanti nezinomaji
 
         //System.out.print(java.util.Arrays.asList(sudoku_skaiciai[i]).indexOf(x_skaicius));
@@ -78,10 +102,85 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
           System.out.print(x_skaicius+" "); //israso nezinomas reiksmes
 
-          truksta_eilutese.add(x_skaicius);
+          truksta_eilutese[i].add(x_skaicius);
         }
       }
       System.out.println(); //???
     }
+  }
+
+  public void trukstaStulpeliuose() {
+
+    for (int i=0; i<9; i+=1) {
+
+      System.out.print(i+" : ");
+
+      truksta_stulpeliuose [i] = new ArrayList<Integer>();
+
+      ArrayList<Integer>stulpelis = new ArrayList<Integer>();
+
+      for (int j=0; j<9; j++) {
+
+        stulpelis.add(sudoku_skaiciai[j][i]);
+      }
+
+      for (Integer x_skaicius=1; x_skaicius<10; x_skaicius++) {
+
+        if (stulpelis.indexOf(x_skaicius)==-1){
+
+          System.out.print(x_skaicius+" ");
+
+          truksta_stulpeliuose[i].add(x_skaicius);
+        }
+      }
+      System.out.println();
+    }
+  }
+
+  public void trukstaKvadratuose() {
+
+    for (int i=0; i<9; i++) {
+
+      System.out.print(i+" : ");
+
+      truksta_kvadratuose [i] = new ArrayList<Integer>();
+
+      ArrayList<Integer>kvadratas = new ArrayList<Integer>();
+
+      do {
+
+        kvadratas.add( sudoku_skaiciai [kvadratai[i].poz.eil][kvadratai[i].poz.stulp] );
+
+      } while (kvadratai[i].padarytiZingsni());
+
+      for (Integer x_skaicius=1; x_skaicius<10; x_skaicius++) {
+
+        if (kvadratas.indexOf(x_skaicius)==-1){
+
+          System.out.print(x_skaicius+" ");
+
+          truksta_kvadratuose[i].add(x_skaicius);
+        }
+      }
+      System.out.println();
+    }
+  }
+
+  public ArrayList<Integer> trukstaLangelyje (int eil, int stulp, int kvadr) {
+
+    ArrayList<Integer> truksta_langelyje = new ArrayList<Integer>();
+    for (Integer i=1; i<10; i++) {
+
+      if (
+          (truksta_eilutese[eil].indexOf(i)!=-1)
+        &&
+          (truksta_stulpeliuose[stulp].indexOf(i)!=-1)
+        &&
+          (truksta_kvadratuose[kvadr].indexOf(i)!=-1)
+      ) {
+        truksta_langelyje.add(i);
+      }
+    }
+    return truksta_langelyje;
   }
 }
