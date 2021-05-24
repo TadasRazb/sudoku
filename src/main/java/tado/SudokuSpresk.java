@@ -12,9 +12,9 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
   public ArrayList<Integer>[] truksta_eilutese; //masyvas eilutese trukstamu elementu sarasu
 
-  public ArrayList<Integer>[] truksta_stulpeliuose;
+  public ArrayList<Integer>[] truksta_stulpeliuose; //masyvas stulpeliuose trukstamu elementu sarasu
 
-  public ArrayList<Integer>[] truksta_kvadratuose;
+  public ArrayList<Integer>[] truksta_kvadratuose; //masyvas kvadratuose trukstamu elementu sarasu
 
   public Kvadratas [] kvadratai;
 
@@ -37,7 +37,6 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
     kvadratai[7] = new Kvadratas( new Pozicija(6,3) );
     kvadratai[8] = new Kvadratas( new Pozicija(6,6) );
   }
-
 
   public void skaityti() throws IOException {     //naujas metodas klases viduj
 
@@ -182,5 +181,42 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
       }
     }
     return truksta_langelyje;
+  }
+
+  public boolean uzpildytiVienareiksmiskaiNustatyta1() {
+
+    boolean isspresta = false; //isspresta surado ir uzpilde arba nesurado kur truksta tik vienos reiksmes
+
+    for ( int i = 0; ((i < kvadratai.length) && !isspresta); i++ ) {
+
+      kvadratai[i].griztiIPradzia();
+
+      do {
+
+        if ( sudoku_skaiciai[kvadratai[i].poz.eil][kvadratai[i].poz.stulp]==0) {
+
+          ArrayList<Integer> truksta_langelyje = trukstaLangelyje(kvadratai[i].poz.eil,kvadratai[i].poz.stulp,i);
+
+          System.out.println(kvadratai[i].poz.eil + " , " + kvadratai[i].poz.stulp + " , " + i + " , " + truksta_langelyje.size());
+
+          if (truksta_langelyje.size()==1) {
+
+            sudoku_skaiciai[kvadratai[i].poz.eil][kvadratai[i].poz.stulp] = truksta_langelyje.get(0);
+
+            //ismest skaiciu is truksta eilutese, is truksta stulpeliuose, ir truksta kvadratuose tos eilutes, stulpelio, ir kvadrato kuriame irasyta skaiciu
+            isspresta = true;
+            break;
+          }
+        }
+      } while (kvadratai[i].padarytiZingsni());
+    }
+    return isspresta;
+  }
+
+  public void sprestiPoViena () {
+
+    while (uzpildytiVienareiksmiskaiNustatyta1()) {
+
+    }
   }
 }

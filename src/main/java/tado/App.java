@@ -25,9 +25,12 @@ public class App {
         System.out.println("truksta langelyje :");
         ArrayList<Integer> truksta_langelyje = sudokuspresk.trukstaLangelyje(2,2,0);
 
+
         for (Integer num : truksta_langelyje) {
            System.out.println(num);
-      }
+        }
 
+        sudokuspresk.sprestiPoViena();
+        sudokuspresk.surasystiReiksmes();
     }
 }

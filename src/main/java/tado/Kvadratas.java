@@ -14,7 +14,7 @@ public class Kvadratas {
 
   public Kvadratas ( Pozicija pradine_pozicija ) {
 
-    zingsniai = new Pozicija[8];  //zingsniu masyvas
+    zingsniai = new Pozicija[8];  //zingsniu masyvas eilute stulpelis
     zingsniai[0] = new Pozicija(0,1);
     zingsniai[1] = new Pozicija(0,1);
     zingsniai[2] = new Pozicija(1,-2);
@@ -45,7 +45,8 @@ public class Kvadratas {
 
   public void griztiIPradzia() {
 
+    zingsnio_nr = 0;
     poz.eil = prad_poz.eil;
-    poz.stulp = prad_poz.stulp; 
+    poz.stulp = prad_poz.stulp;
   }
 }
