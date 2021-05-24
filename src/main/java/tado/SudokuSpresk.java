@@ -204,6 +204,9 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
             sudoku_skaiciai[kvadratai[i].poz.eil][kvadratai[i].poz.stulp] = truksta_langelyje.get(0);
 
             //ismest skaiciu is truksta eilutese, is truksta stulpeliuose, ir truksta kvadratuose tos eilutes, stulpelio, ir kvadrato kuriame irasyta skaiciu
+            truksta_eilutese[kvadratai[i].poz.eil].remove(truksta_eilutese[kvadratai[i].poz.eil].indexOf(truksta_langelyje.get(0)));
+            truksta_stulpeliuose[kvadratai[i].poz.stulp].remove(truksta_stulpeliuose[kvadratai[i].poz.stulp].indexOf(truksta_langelyje.get(0)));
+            truksta_kvadratuose[i].remove(truksta_kvadratuose[i].indexOf(truksta_langelyje.get(0)));
             isspresta = true;
             break;
           }
