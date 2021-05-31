@@ -61,28 +61,64 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
        int k = 0; //duodam k reiksme lygia 0
 
+       System.out.println ("╔═══════════╦═══════════╦═══════════╗");
+
        while ((skaitom_po_viena_eilute = br.readLine()) !=null) { //ciklas skaito eilutes kol ju yra
+
+         if ((k==3)||(k==6)) {
+     			System.out.print("╠═══════════╬═══════════╬═══════════╣\n");
+     		 } if ( ( k==1 )||( k==2) ||( k==4 )||( k==5 )||( k==7 )||( k==8 ) ) {
+     			System.out.print("║ ─   ─   ─ ║ ─   ─   ─ ║ ─   ─   ─ ║\n║");
+     		 } else {
+     			System.out.print("║");
+     		 }
 
          String[] duoti_skaiciai = skaitom_po_viena_eilute.split(","); //paima is masyvo eilutes ir atskyrimo reiksmes lygios kableliui
 
          for (int i=0; i<duoti_skaiciai.length; i+=1) {  //for ciklas kad i negali buti daugiau nei duoda skaiciu eiluteje i+=1 reiskia kad kieviena kart ima kita eilutes demeny??
 
-           sudoku_skaiciai [k][i] = Integer.parseInt(duoti_skaiciai[i]);  //sudoku skaiciai [k] stuplepiai [i] eilutes. parseint atskiria visus skaicius nuo eilutes?
+            String bruksniukas = " │";
 
-         }
+            if ((i==2)||(i==5)||(i==8)){
+      				bruksniukas=" ║";
+      			}
+            System.out.print(" "+ duoti_skaiciai [i]+bruksniukas);
+            sudoku_skaiciai [k][i] = Integer.parseInt(duoti_skaiciai[i]);  //sudoku skaiciai [k] stuplepiai [i] eilutes. parseint atskiria visus skaicius nuo eilutes?
+
+          } //uzdaro for
+         System.out.println("");
          k++; //sekantis stulpelis?
        }
+       System.out.println ("╚═══════════╩═══════════╩═══════════╝");
   }
 
   public void surasystiReiksmes(){  //nauja klase kuria liepia israsyti reiksmes esamas?
 
+    System.out.println ("╔═══════════╦═══════════╦═══════════╗");
+
     for ( int i = 0; i < 9; i++){   //eilutes israso?
 
+      if ((i==3)||(i==6)) {
+       System.out.print("╠═══════════╬═══════════╬═══════════╣\n");
+      } if ( ( i==1 )||( i==2) ||( i==4 )||( i==5 )||( i==7 )||( i==8 ) ) {
+       System.out.print("║ ─   ─   ─ ║ ─   ─   ─ ║ ─   ─   ─ ║\n║");
+      } else {
+       System.out.print("║");
+      }
+
       for (int j = 0; j < 9; j++){  //stulpelius israso?
-        System.out.print(sudoku_skaiciai [i][j] + " "); //israso koonsolej visa uzduoti
+
+        String bruksniukas = " │";
+
+        if ((j==2)||(j==5)||(j==8)){
+          bruksniukas=" ║";
+        }
+
+        System.out.print(" " + sudoku_skaiciai [i][j] + bruksniukas); //israso koonsolej visa uzduoti
       }
       System.out.println(); //???
     }
+     System.out.println ("╚═══════════╩═══════════╩═══════════╝");
   }
 
   public void trukstaEilutese(){  //nauja klase israso ko truksta eilutese
@@ -220,6 +256,8 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
     while (uzpildytiVienareiksmiskaiNustatyta1()) {
 
+      //sustabdyti sioje vietoje programa ir parodyti esama sudoku. toliau testi jei vartotjas parenka testi.
+      System.out.println("testi?");
     }
   }
 }
