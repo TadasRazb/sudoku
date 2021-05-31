@@ -57,9 +57,24 @@ public class AppTest
 
       SudokuSpresk sudoku_spresk = new SudokuSpresk();
 
-      sudoku_spresk.sudoku_skaiciai = sudoku_skaiciai;
+      Langelis[][] langeliai = new Langelis[9][9];
+
+      for ( int i = 0; i < 9; i++) {
+
+        for ( int j = 0; j < 9; j++) {
+
+          langeliai[i][j] = new Langelis(sudoku_skaiciai[i][j]);
+        }
+      }
+
+      sudoku_spresk.sudoku_skaiciai = langeliai;
 
       sudoku_spresk.trukstaEilutese (); //te = truksta eiluteje
+
+      for ( int i = 0; i < sudoku_spresk.truksta_eilutese[0].size(); i++) {
+
+        System.out.println(sudoku_spresk.truksta_eilutese[0].get(i));
+      }
         Integer[] te0 = { 2, 4, 7, 8 };
         Integer[] te1 = { 2, 4, 5, 7, 8, 9 };
         Integer[] te2 = { 1, 3, 6, 7, 9 };

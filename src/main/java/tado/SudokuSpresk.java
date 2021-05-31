@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
-  public Integer [][] sudoku_skaiciai;  //sukuriam masyvu masyva - matrica
+  public Langelis [][] sudoku_skaiciai;  //sukuriam masyvu masyva - matrica
 
   public ArrayList<Integer>[] truksta_eilutese; //masyvas eilutese trukstamu elementu sarasu
 
@@ -40,7 +40,7 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
   public void skaityti() throws IOException {     //naujas metodas klases viduj
 
-    sudoku_skaiciai = new Integer [9][9];     //duodam sudoku_skaiciai forma 9x9
+    sudoku_skaiciai = new Langelis [9][9];     //duodam sudoku_skaiciai forma 9x9
 
        BufferedReader r = new BufferedReader( new InputStreamReader (System.in ) ); //skaitymas
 
@@ -83,7 +83,7 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
       				bruksniukas=" ║";
       			}
             System.out.print(" "+ duoti_skaiciai [i]+bruksniukas);
-            sudoku_skaiciai [k][i] = Integer.parseInt(duoti_skaiciai[i]);  //sudoku skaiciai [k] stuplepiai [i] eilutes. parseint atskiria visus skaicius nuo eilutes?
+            sudoku_skaiciai [k][i] = new Langelis(Integer.parseInt(duoti_skaiciai[i]));  //sudoku skaiciai [k] stuplepiai [i] eilutes. parseint atskiria visus skaicius nuo eilutes?
 
           } //uzdaro for
          System.out.println("");
@@ -113,8 +113,8 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
         if ((j==2)||(j==5)||(j==8)){
           bruksniukas=" ║";
         }
-
-        System.out.print(" " + sudoku_skaiciai [i][j] + bruksniukas); //israso koonsolej visa uzduoti
+        
+        System.out.print(" " + sudoku_skaiciai [i][j].reiksme + bruksniukas); //israso koonsolej visa uzduoti
       }
       System.out.println(); //???
     }
@@ -129,11 +129,15 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
       truksta_eilutese [i] = new ArrayList<Integer>();
 
+      Langelis langelis = new Langelis();
+
       for (Integer x_skaicius=1; x_skaicius<10; x_skaicius++){ //ciklas sukti naujam nezinomajam x_skaicius duota reiksme1 maziau nei 10, ++ kad ima sekanti nezinomaji
 
         //System.out.print(java.util.Arrays.asList(sudoku_skaiciai[i]).indexOf(x_skaicius));
 
-        if (Arrays.asList(sudoku_skaiciai[i]).indexOf(x_skaicius)== -1){ //????
+        langelis.nustatyti(x_skaicius);
+
+        if (Arrays.asList(sudoku_skaiciai[i]).indexOf(langelis)== -1){ //????
 
           System.out.print(x_skaicius+" "); //israso nezinomas reiksmes
 
@@ -156,7 +160,7 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
       for (int j=0; j<9; j++) {
 
-        stulpelis.add(sudoku_skaiciai[j][i]);
+        stulpelis.add(sudoku_skaiciai[j][i].reiksme);
       }
 
       for (Integer x_skaicius=1; x_skaicius<10; x_skaicius++) {
@@ -184,7 +188,7 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
       do {
 
-        kvadratas.add( sudoku_skaiciai [kvadratai[i].poz.eil][kvadratai[i].poz.stulp] );
+        kvadratas.add( sudoku_skaiciai [kvadratai[i].poz.eil][kvadratai[i].poz.stulp].reiksme );
 
       } while (kvadratai[i].padarytiZingsni());
 
@@ -229,7 +233,7 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
       do {
 
-        if ( sudoku_skaiciai[kvadratai[i].poz.eil][kvadratai[i].poz.stulp]==0) {
+        if ( sudoku_skaiciai[kvadratai[i].poz.eil][kvadratai[i].poz.stulp].reiksme==0) {
 
           ArrayList<Integer> truksta_langelyje = trukstaLangelyje(kvadratai[i].poz.eil,kvadratai[i].poz.stulp,i);
 
@@ -237,7 +241,7 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
 
           if (truksta_langelyje.size()==1) {
 
-            sudoku_skaiciai[kvadratai[i].poz.eil][kvadratai[i].poz.stulp] = truksta_langelyje.get(0);
+            sudoku_skaiciai[kvadratai[i].poz.eil][kvadratai[i].poz.stulp].nustatyti( truksta_langelyje.get(0),1 ); //kur buvo duotos reiksmes 0, kur surastos veliau reiksme duodama 1
 
             //ismest skaiciu is truksta eilutese, is truksta stulpeliuose, ir truksta kvadratuose tos eilutes, stulpelio, ir kvadrato kuriame irasyta skaiciu
             truksta_eilutese[kvadratai[i].poz.eil].remove(truksta_eilutese[kvadratai[i].poz.eil].indexOf(truksta_langelyje.get(0)));
