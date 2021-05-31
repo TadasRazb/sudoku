@@ -113,7 +113,11 @@ public class SudokuSpresk {     //sukuriam klase SudokuSpresk
         if ((j==2)||(j==5)||(j==8)){
           bruksniukas=" ║";
         }
-        
+
+        if (sudoku_skaiciai[i][j].zingsnio_nr==0){
+          System.out.println("\033[36m"+ sudoku_skaiciai[i][j].reiksme +"\033[0m");
+        }
+
         System.out.print(" " + sudoku_skaiciai [i][j].reiksme + bruksniukas); //israso koonsolej visa uzduoti
       }
       System.out.println(); //???
